@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/BackGroundApp"
+    tools:context=".ui.favorite.FavoriteActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorite"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_user" />
+
+    <ImageView
+        android:id="@+id/img_favorite_empty"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pic_search_empty"
+        app:layout_constraintVertical_bias="0.3"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:contentDescription="@string/desc_img_not_found" />
+
+    <TextView
+        android:id="@+id/tv_favorite_empty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/favorite_empty"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/black_800"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/img_favorite_empty"
+        app:layout_constraintStart_toStartOf="@+id/img_favorite_empty"
+        app:layout_constraintTop_toBottomOf="@+id/img_favorite_empty" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GithubUserApplication" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryVariant">@color/black_800</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/light_blue</item>
+        <item name="colorSecondaryVariant">@color/light_gray</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <item name="tab_active">@color/gray_500</item>
+        <item name="tab_inactive">@color/gray</item>
+    </style>
+
+    <style name="BackGroundApp">
+        <item name="android:background">@color/gray_500</item>
+    </style>
+
+    <style name="TabTextColor">
+        <item name="tabTextColor">?attr/colorSecondaryVariant</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+</resources>
