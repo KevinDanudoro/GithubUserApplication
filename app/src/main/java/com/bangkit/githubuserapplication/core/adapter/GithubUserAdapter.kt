@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.githubuserapplication.databinding.ItemUserBinding
-import com.bangkit.githubuserapplication.core.gson.ItemsItem
+import com.bangkit.githubuserapplication.data.source.remote.response.GithubUserResponse
+import com.bangkit.githubuserapplication.domain.model.GithubUser
 import com.bumptech.glide.Glide
 
 class GithubUserAdapter(
-    private val listGithubUser: ArrayList<ItemsItem>
+    private val listGithubUser: ArrayList<GithubUser>
 ): RecyclerView.Adapter<GithubUserAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -26,7 +27,7 @@ class GithubUserAdapter(
     override fun getItemCount(): Int = listGithubUser.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (avatarUrl, username) = listGithubUser[position]
+        val (_, username, avatarUrl) = listGithubUser[position]
         holder.binding.tvUsername.text = username
         Glide.with(holder.itemView.context)
             .load(avatarUrl)
@@ -38,7 +39,7 @@ class GithubUserAdapter(
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: ItemsItem)
+        fun onItemClicked(data: GithubUser)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {

@@ -6,7 +6,7 @@
     style="@style/BackGroundApp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detail.DetailActivity">
+    tools:context=".presentation.detail.DetailActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_like"
@@ -160,7 +160,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/img_detail_avatar"
         app:layout_constraintEnd_toEndOf="@+id/img_detail_avatar"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/img_detail_avatar"
         app:layout_constraintTop_toTopOf="@+id/img_detail_avatar"
         app:srcCompat="@drawable/pic_error" />

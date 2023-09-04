@@ -3,12 +3,13 @@ package com.bangkit.githubuserapplication.core.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bangkit.githubuserapplication.core.database.FavoriteUser
+import com.bangkit.githubuserapplication.data.source.local.entity.GithubUserEntity
 import com.bangkit.githubuserapplication.databinding.ItemUserBinding
+import com.bangkit.githubuserapplication.domain.model.GithubUser
 import com.bumptech.glide.Glide
 
 class FavoriteUserAdapter(
-    private val favoriteUserList: List<FavoriteUser>,
+    private val favoriteUserList: List<GithubUser>,
 ) : RecyclerView.Adapter<FavoriteUserAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -38,7 +39,7 @@ class FavoriteUserAdapter(
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: FavoriteUser)
+        fun onItemClicked(data: GithubUser)
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
