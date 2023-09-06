@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.core.domain.model.GithubUser
+import com.bangkit.core.ui.FavoriteUserAdapter
+import com.bangkit.core.ui.ViewModelFactory
 import com.bangkit.githubuserapplication.MyApplication
-import com.bangkit.githubuserapplication.core.adapter.FavoriteUserAdapter
-import com.bangkit.githubuserapplication.core.helper.ViewModelFactory
-import com.bangkit.githubuserapplication.data.source.local.entity.GithubUserEntity
 import com.bangkit.githubuserapplication.databinding.ActivityFavoriteBinding
-import com.bangkit.githubuserapplication.domain.model.GithubUser
 import com.bangkit.githubuserapplication.presentation.detail.DetailActivity
 import javax.inject.Inject
 

@@ -1,10 +1,10 @@
 package com.bangkit.githubuserapplication
 
 import android.app.Application
-import com.bangkit.githubuserapplication.core.di.AppComponent
-import com.bangkit.githubuserapplication.core.di.CoreComponent
-import com.bangkit.githubuserapplication.core.di.DaggerAppComponent
-import com.bangkit.githubuserapplication.core.di.DaggerCoreComponent
+import com.bangkit.core.di.module.CoreComponent
+import com.bangkit.core.di.module.DaggerCoreComponent
+import com.bangkit.githubuserapplication.di.AppComponent
+import com.bangkit.githubuserapplication.di.DaggerAppComponent
 
 open class MyApplication: Application() {
     private val coreComponent: CoreComponent by lazy{

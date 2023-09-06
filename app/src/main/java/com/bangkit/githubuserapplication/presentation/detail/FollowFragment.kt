@@ -2,22 +2,19 @@ package com.bangkit.githubuserapplication.presentation.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.core.domain.model.GithubUser
+import com.bangkit.core.ui.FollowAdapter
+import com.bangkit.core.ui.ViewModelFactory
 import com.bangkit.githubuserapplication.MyApplication
 import com.bangkit.githubuserapplication.R
-import com.bangkit.githubuserapplication.core.adapter.FollowAdapter
-import com.bangkit.githubuserapplication.core.helper.ViewModelFactory
-import com.bangkit.githubuserapplication.data.Resource
 import com.bangkit.githubuserapplication.databinding.FragmentFollowBinding
-import com.bangkit.githubuserapplication.domain.model.GithubUser
 import javax.inject.Inject
 
 class FollowFragment : Fragment() {
@@ -65,23 +62,19 @@ class FollowFragment : Fragment() {
 
     private fun subscribeFollower(username: String?) {
         if(username == null) return
-        Log.d("DebugFollowFragment", "follower")
 
         detailViewModel.githubUserFollowers(username).observe(viewLifecycleOwner){followers ->
             if(followers != null){
                 when(followers){
-                    is Resource.Error -> {
-                        Log.d("DebugFollowFragment", "error")
+                    is com.bangkit.core.data.Resource.Error -> {
                         setShowErrorMessage(true)
                         setShowProgressbar(false)
                     }
-                    is Resource.Loading -> {
-                        Log.d("DebugFollowFragment", "loading")
+                    is com.bangkit.core.data.Resource.Loading -> {
                         setShowErrorMessage(false)
                         setShowProgressbar(true)
                     }
-                    is Resource.Success -> {
-                        Log.d("DebugFollowFragment", followers.data.toString())
+                    is com.bangkit.core.data.Resource.Success -> {
                         setShowErrorMessage(false)
                         setShowProgressbar(false)
                         setFollowData(followers.data)
@@ -93,20 +86,19 @@ class FollowFragment : Fragment() {
 
     private fun subscribeFollowing(username: String?) {
         if(username == null) return
-        Log.d("DebugFollowFragment", "following")
 
         detailViewModel.githubUserFollowing(username).observe(viewLifecycleOwner){followers ->
             if(followers != null){
                 when(followers){
-                    is Resource.Error -> {
+                    is com.bangkit.core.data.Resource.Error -> {
                         setShowErrorMessage(true)
                         setShowProgressbar(false)
                     }
-                    is Resource.Loading -> {
+                    is com.bangkit.core.data.Resource.Loading -> {
                         setShowErrorMessage(false)
                         setShowProgressbar(true)
                     }
-                    is Resource.Success -> {
+                    is com.bangkit.core.data.Resource.Success -> {
                         setShowErrorMessage(false)
                         setShowProgressbar(false)
                         setFollowData(followers.data)
@@ -130,7 +122,6 @@ class FollowFragment : Fragment() {
     private fun setFollowData(follow: List<GithubUser>?) {
         if(follow != null){
             val adapter = FollowAdapter(follow)
-            Log.d("DebugFollowFragment", "adapter follow")
             binding.rvFollow.adapter = adapter
         }
     }

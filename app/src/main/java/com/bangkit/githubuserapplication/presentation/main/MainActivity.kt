@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,18 +12,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.core.domain.model.GithubUser
+import com.bangkit.core.ui.GithubUserAdapter
+import com.bangkit.core.ui.ViewModelFactory
 import com.bangkit.githubuserapplication.MyApplication
 import com.bangkit.githubuserapplication.R
-import com.bangkit.githubuserapplication.core.adapter.GithubUserAdapter
 import com.bangkit.githubuserapplication.databinding.ActivityMainBinding
-import com.bangkit.githubuserapplication.data.source.local.datastore.SettingPreferences
-import com.bangkit.githubuserapplication.core.helper.ViewModelFactory
-import com.bangkit.githubuserapplication.data.Resource
-import com.bangkit.githubuserapplication.domain.model.GithubUser
 import com.bangkit.githubuserapplication.presentation.detail.DetailActivity
 import com.bangkit.githubuserapplication.presentation.favorite.FavoriteActivity
 import javax.inject.Inject
@@ -70,7 +64,6 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     mainViewModel.getAllGithubUser(query)
-                    Log.d("DebugMain", "pass viewmodel")
                 }
                 searchView.clearFocus()
                 return true
@@ -109,20 +102,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Log.d("DebugMain", "pass get")
         mainViewModel.githubUser.observe(this@MainActivity){githubUser ->
-            Log.d("DebugMain", "obs $githubUser")
             if(githubUser != null){
                 when(githubUser){
-                    is Resource.Error -> {
+                    is com.bangkit.core.data.Resource.Error -> {
                         setShowErrorMessage(true)
                         setShowProgressbar(false)
                     }
-                    is Resource.Loading -> {
+                    is com.bangkit.core.data.Resource.Loading -> {
                         setShowErrorMessage(false)
                         setShowProgressbar(true)
                     }
-                    is Resource.Success -> {
+                    is com.bangkit.core.data.Resource.Success -> {
                         setShowProgressbar(false)
                         setShowErrorMessage(githubUser.data?.size ?: 0)
                         setListGithubUser(githubUser.data)
