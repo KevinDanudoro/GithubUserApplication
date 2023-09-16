@@ -38,8 +38,8 @@ dependencies {
     implementation project(":app")
     implementation project(":core")
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
 
     implementation "androidx.activity:activity-ktx:$activity_ktx_version"
 }
