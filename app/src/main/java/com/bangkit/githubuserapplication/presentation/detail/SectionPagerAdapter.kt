@@ -1,4 +1,4 @@
-package com.bangkit.githubuserapplication.presentation.favorite
+package com.bangkit.githubuserapplication.favorite.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

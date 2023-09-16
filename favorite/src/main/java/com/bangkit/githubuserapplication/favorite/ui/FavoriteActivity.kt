@@ -1,4 +1,4 @@
-package com.bangkit.githubuserapplication.presentation.favorite
+package com.bangkit.githubuserapplication.favorite.favorite
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +19,7 @@ class FavoriteActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory: ViewModelFactory
-    private val favoriteViewModel:FavoriteViewModel by viewModels{factory}
+    private val favoriteViewModel: FavoriteViewModel by viewModels{factory}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as MyApplication).appComponent.inject(this)

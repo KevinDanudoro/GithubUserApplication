@@ -1,4 +1,4 @@
-package com.bangkit.githubuserapplication.presentation.favorite
+package com.bangkit.githubuserapplication.favorite.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
