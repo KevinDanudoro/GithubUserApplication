@@ -29,4 +29,5 @@
     <string name="desc_img_not_found">github user not found</string>
     <string name="favorite_empty">Your Favorite Github User List Still Empty</string>
     <string name="desc_tabs_follow">User Follow Data</string>
+    <string name="title_favorite">Favorite</string>
 </resources>

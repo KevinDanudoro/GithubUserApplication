@@ -3,11 +3,13 @@ package com.bangkit.githubuserapplication.presentation.main
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
@@ -20,7 +22,8 @@ import com.bangkit.githubuserapplication.MyApplication
 import com.bangkit.githubuserapplication.R
 import com.bangkit.githubuserapplication.databinding.ActivityMainBinding
 import com.bangkit.githubuserapplication.presentation.detail.DetailActivity
-import com.bangkit.githubuserapplication.presentation.favorite.FavoriteActivity
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -77,8 +80,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.favorite_menu -> {
-                val toFavoriteActivity = Intent(this, FavoriteActivity::class.java)
-                startActivity(toFavoriteActivity)
+                installFavoriteModule()
             }
             R.id.theme_menu -> {
                 val isDarkModeActive = mainViewModel.isDarkMode.value
@@ -88,6 +90,30 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun installFavoriteModule() {
+        val splitInstallManager = SplitInstallManagerFactory.create(this)
+        val module = "favorite"
+        if (splitInstallManager.installedModules.contains(module)) {
+            moveToFavoriteActivity()
+        } else {
+            val request = SplitInstallRequest.newBuilder()
+                .addModule(module)
+                .build()
+            splitInstallManager.startInstall(request)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Success installing module", Toast.LENGTH_SHORT).show()
+                    moveToFavoriteActivity()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error installing module", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun moveToFavoriteActivity() {
+        startActivity(Intent(this, Class.forName("com.bangkit.githubuserapplication.favorite.ui.FavoriteActivity")))
     }
 
     private fun initRecyclerView() {

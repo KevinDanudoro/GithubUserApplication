@@ -1,5 +1,8 @@
 package com.bangkit.core.data
 
+import com.bangkit.core.data.source.local.LocalDataSource
+import com.bangkit.core.data.source.local.entity.GithubUserEntity
+import com.bangkit.core.data.source.remote.RemoteDataSource
 import com.bangkit.core.data.source.remote.network.ApiResponse
 import com.bangkit.core.data.source.remote.response.DetailGithubUserResponse
 import com.bangkit.core.data.source.remote.response.GithubUserResponse
@@ -13,8 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GithubUserRepository @Inject constructor(
-    private val remoteDataSource: com.bangkit.core.data.source.remote.RemoteDataSource,
-    private val localDataSource: com.bangkit.core.data.source.local.LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
 ): IGithubUserRepository {
 
     override fun getAllGithubUser(username: String): Flow<Resource<List<GithubUser>>> =
@@ -64,8 +67,9 @@ class GithubUserRepository @Inject constructor(
         }
 
     override suspend fun setFavoriteGithubUser(githubUser: GithubUser, state: Int) {
-        val githubUserEntity: com.bangkit.core.data.source.local.entity.GithubUserEntity = DataMapper.mapDomainToEntity(githubUser)
-        localDataSource.setFavoriteGithubUser(githubUserEntity, state)
+        val githubUserEntity: GithubUserEntity = DataMapper.mapDomainToEntity(githubUser)
+        githubUserEntity.isFavorite = state
+        localDataSource.setFavoriteGithubUser(githubUserEntity)
     }
 
     override suspend fun deleteOneFavoriteGithubUser(githubUser: GithubUser) {

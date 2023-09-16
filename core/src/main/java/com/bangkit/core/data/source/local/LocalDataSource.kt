@@ -1,6 +1,9 @@
 package com.bangkit.core.data.source.local
 
 import com.bangkit.core.data.source.local.datastore.SettingPreferences
+import com.bangkit.core.data.source.local.entity.FollowerEntity
+import com.bangkit.core.data.source.local.entity.FollowingEntity
+import com.bangkit.core.data.source.local.entity.GithubUserEntity
 import com.bangkit.core.data.source.local.room.dao.FollowerDao
 import com.bangkit.core.data.source.local.room.dao.FollowingDao
 import com.bangkit.core.data.source.local.room.dao.GithubUserDao
@@ -16,39 +19,47 @@ class LocalDataSource @Inject constructor(
     private val datastore: SettingPreferences
 ) {
 
-    fun getAllGithubUser(): Flow<List<com.bangkit.core.data.source.local.entity.GithubUserEntity>> = githubUserDao.getAllGithubUser()
+    fun getAllGithubUser(): Flow<List<GithubUserEntity>> =
+        githubUserDao.getAllGithubUser()
 
-    fun getOneGithubUser(username: String): Flow<com.bangkit.core.data.source.local.entity.GithubUserEntity> =
+    fun getOneGithubUser(username: String): Flow<GithubUserEntity> =
         githubUserDao.getOneGithubUser(username)
 
-    suspend fun insertAllGithubUser(githubUserList: List<com.bangkit.core.data.source.local.entity.GithubUserEntity>) =
+    suspend fun insertAllGithubUser(githubUserList: List<GithubUserEntity>) =
         githubUserDao.insertAllGithubUser(githubUserList)
 
-    suspend fun updateGithubUser(githubUser: com.bangkit.core.data.source.local.entity.GithubUserEntity) =
+    suspend fun updateGithubUser(githubUser: GithubUserEntity) =
         githubUserDao.updateGithubUser(githubUser)
 
-    suspend fun deleteFavoriteGithubUser(githubUser: com.bangkit.core.data.source.local.entity.GithubUserEntity) =
+    suspend fun deleteFavoriteGithubUser(githubUser: GithubUserEntity) =
         githubUserDao.deleteOneGithubUser(githubUser)
 
-    suspend fun deleteNonFavoriteGithubUser() = githubUserDao.deleteNonFavoriteGithubUser()
+    suspend fun deleteNonFavoriteGithubUser() =
+        githubUserDao.deleteNonFavoriteGithubUser()
 
 
-    fun getAllFavoriteGithubUser(): Flow<List<com.bangkit.core.data.source.local.entity.GithubUserEntity>> =
+    fun getAllFavoriteGithubUser(): Flow<List<GithubUserEntity>> =
         githubUserDao.getAllFavoriteUser()
 
-    suspend fun setFavoriteGithubUser(favoriteUser: com.bangkit.core.data.source.local.entity.GithubUserEntity, state: Int) {
-        favoriteUser.isFavorite = state
+    suspend fun setFavoriteGithubUser(favoriteUser: GithubUserEntity) =
         githubUserDao.setFavoriteUser(favoriteUser)
-    }
 
-    fun getFollowing() = followingDao.getFollowing()
-    suspend fun insertFollowing(following: List<com.bangkit.core.data.source.local.entity.FollowingEntity>) = followingDao.insertFollowing(following)
-    suspend fun deleteFollowing() = followingDao.deleteFollowing()
+    fun getFollowing() =
+        followingDao.getFollowing()
+    suspend fun insertFollowing(following: List<FollowingEntity>) =
+        followingDao.insertFollowing(following)
+    suspend fun deleteFollowing() =
+        followingDao.deleteFollowing()
 
-    fun getFollower() = followerDao.getFollower()
-    suspend fun insertFollower(follower: List<com.bangkit.core.data.source.local.entity.FollowerEntity>) = followerDao.insertFollower(follower)
-    suspend fun deleteFollower() = followerDao.deleteFollower()
+    fun getFollower() =
+        followerDao.getFollower()
+    suspend fun insertFollower(follower: List<FollowerEntity>) =
+        followerDao.insertFollower(follower)
+    suspend fun deleteFollower() =
+        followerDao.deleteFollower()
 
-    fun getThemeSetting() = datastore.getThemeSetting()
-    suspend fun setThemeSetting(darkMode: Boolean) = datastore.saveThemeSetting(darkMode)
+    fun getThemeSetting() =
+        datastore.getThemeSetting()
+    suspend fun setThemeSetting(darkMode: Boolean) =
+        datastore.saveThemeSetting(darkMode)
 }

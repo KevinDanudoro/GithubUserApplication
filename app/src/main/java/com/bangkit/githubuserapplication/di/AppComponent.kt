@@ -6,7 +6,6 @@ import com.bangkit.core.di.module.CoreComponent
 import com.bangkit.githubuserapplication.di.module.ViewModelModule
 import com.bangkit.githubuserapplication.presentation.detail.DetailActivity
 import com.bangkit.githubuserapplication.presentation.detail.FollowFragment
-import com.bangkit.githubuserapplication.presentation.favorite.FavoriteActivity
 import com.bangkit.githubuserapplication.presentation.main.MainActivity
 import dagger.Component
 
@@ -22,7 +21,6 @@ interface AppComponent {
     }
 
     fun inject(mainActivity: MainActivity)
-    fun inject(favoriteActivity: FavoriteActivity)
     fun inject(detailActivity: DetailActivity)
     fun inject(followFragment: FollowFragment)
 }

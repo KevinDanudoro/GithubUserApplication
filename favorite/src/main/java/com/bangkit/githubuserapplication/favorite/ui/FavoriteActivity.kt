@@ -1,16 +1,18 @@
-package com.bangkit.githubuserapplication.favorite.favorite
+package com.bangkit.githubuserapplication.favorite.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.core.di.module.CoreComponent
+import com.bangkit.core.di.module.DaggerCoreComponent
 import com.bangkit.core.domain.model.GithubUser
 import com.bangkit.core.ui.FavoriteUserAdapter
-import com.bangkit.core.ui.ViewModelFactory
-import com.bangkit.githubuserapplication.MyApplication
 import com.bangkit.githubuserapplication.databinding.ActivityFavoriteBinding
+import com.bangkit.githubuserapplication.favorite.di.DaggerFavoriteComponent
 import com.bangkit.githubuserapplication.presentation.detail.DetailActivity
 import javax.inject.Inject
 
@@ -22,14 +24,24 @@ class FavoriteActivity : AppCompatActivity() {
     private val favoriteViewModel: FavoriteViewModel by viewModels{factory}
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.inject(this)
+        DaggerFavoriteComponent.builder()
+            .appDependencies(
+                DaggerCoreComponent.factory().create(applicationContext)
+            )
+            .build()
+            .inject(this)
         super.onCreate(savedInstanceState)
+
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         title = "Favorite User"
 
         initRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
         subscribe()
     }
 
@@ -40,6 +52,7 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun subscribe() {
         favoriteViewModel.getAllFavoriteUser().observe(this) { favoriteUserList ->
+            Log.d("DebugFav", favoriteUserList.size.toString())
             setListFavoriteUser(favoriteUserList)
             if (favoriteUserList.isNotEmpty()) {
                 with(binding) {

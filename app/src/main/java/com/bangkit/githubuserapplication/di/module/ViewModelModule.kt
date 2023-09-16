@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bangkit.core.ui.ViewModelFactory
 import com.bangkit.githubuserapplication.di.ViewModelKey
 import com.bangkit.githubuserapplication.presentation.detail.DetailViewModel
-import com.bangkit.githubuserapplication.presentation.favorite.FavoriteViewModel
 import com.bangkit.githubuserapplication.presentation.main.MainViewModel
 import dagger.Binds
 import dagger.Module
@@ -18,11 +17,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindHomeViewModel(viewModel: MainViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(FavoriteViewModel::class)
-    abstract fun bindFavoriteViewModel(viewModel: FavoriteViewModel): ViewModel
 
     @Binds
     @IntoMap

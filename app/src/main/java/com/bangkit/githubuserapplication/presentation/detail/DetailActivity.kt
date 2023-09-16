@@ -15,12 +15,12 @@ import com.bangkit.core.domain.model.GithubUser
 import com.bangkit.core.ui.ViewModelFactory
 import com.bangkit.githubuserapplication.MyApplication
 import com.bangkit.githubuserapplication.R
-import com.bangkit.githubuserapplication.presentation.favorite.SectionPagerAdapter
 import com.bangkit.githubuserapplication.databinding.ActivityDetailBinding
-import com.bangkit.githubuserapplication.presentation.favorite.FavoriteViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
@@ -28,7 +28,6 @@ class DetailActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelFactory
     private val detailViewModel by viewModels<DetailViewModel> { factory }
-    private val favoriteViewModel by viewModels<FavoriteViewModel> { factory }
 
     private lateinit var binding: ActivityDetailBinding
 
@@ -58,7 +57,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initTabLayout(username: String) {
-        val sectionPagerAdapter = SectionPagerAdapter(this, username)
+        val sectionPagerAdapter =
+            SectionPagerAdapter(
+                this,
+                username
+            )
         val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionPagerAdapter
 
@@ -99,21 +102,53 @@ class DetailActivity : AppCompatActivity() {
         if (githubUser == null) return
 
         binding.fabLike.setOnClickListener {
-            val newFavorite = if(githubUser.isFavorite == 1) 0 else 1
-            favoriteViewModel.setFavoriteGithubUser(githubUser, newFavorite)
-            if (newFavorite == 1)
-                Toast.makeText(
-                    this,
-                    "${githubUser.username} ditambahkan ke favorit",
-                    Toast.LENGTH_SHORT
-                ).show()
-            else
-                Toast.makeText(
-                    this,
-                    "${githubUser.username} dihapus dari favorit",
-                    Toast.LENGTH_SHORT
-                ).show()
+            checkFavoriteModule(githubUser)
         }
+    }
+
+    private fun checkFavoriteModule(githubUser: GithubUser) {
+        val splitInstallManager = SplitInstallManagerFactory.create(this)
+        val module = "favorite"
+        if (splitInstallManager.installedModules.contains(module)) {
+            setFavoriteGithubUser(githubUser)
+        } else {
+            val request = SplitInstallRequest.newBuilder()
+                .addModule(module)
+                .build()
+            splitInstallManager.startInstall(request)
+                .addOnSuccessListener {
+                    Toast.makeText(
+                        this,
+                        "Success installing favorite module",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    setFavoriteGithubUser(githubUser)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this,
+                        "Error installing favorite module",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    private fun setFavoriteGithubUser(githubUser: GithubUser) {
+        val newFavorite = if(githubUser.isFavorite == 1) 0 else 1
+        detailViewModel.setFavoriteGithubUser(githubUser, newFavorite)
+        if (newFavorite == 1)
+            Toast.makeText(
+                this,
+                "${githubUser.username} ditambahkan ke favorit",
+                Toast.LENGTH_SHORT
+            ).show()
+        else
+            Toast.makeText(
+                this,
+                "${githubUser.username} dihapus dari favorit",
+                Toast.LENGTH_SHORT
+            ).show()
     }
 
     private fun setProfileData(githubUser: GithubUser?) {
