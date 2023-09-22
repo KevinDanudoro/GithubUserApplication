@@ -20,7 +20,7 @@ class NetworkModule {
             val requestHeaders = req.newBuilder()
                 .addHeader(
                     "Authorization",
-                    "token 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"
+                    "token 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"
                 )
                 .build()
             chain.proceed(requestHeaders)
