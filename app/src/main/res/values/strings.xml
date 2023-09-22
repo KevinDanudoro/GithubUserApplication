@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Github User</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_title">search menu</string>
     <string name="menu_search_hint">Please fill github username</string>
     <string name="search_title">github user list</string>
@@ -13,15 +11,8 @@
     <string name="tab_text_1">Followers</string>
     <string name="tab_text_2">Following</string>
     <string name="menu_favorite">favorite menu</string>
-    <string name="title_activity_favorite">FavoriteActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="desc_bg_img">profile background</string>
     <string name="desc_img_error">Kesalahan server</string>
     <string name="desc_fab_like">tombol suka</string>
@@ -30,4 +21,6 @@
     <string name="favorite_empty">Your Favorite Github User List Still Empty</string>
     <string name="desc_tabs_follow">User Follow Data</string>
     <string name="title_favorite">Favorite</string>
+
+    <string name="follow_error">Follow Error</string>
 </resources>

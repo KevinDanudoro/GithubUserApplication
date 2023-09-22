@@ -4,6 +4,7 @@ import android.content.Context
 import com.bangkit.core.domain.repository.IGithubUserRepository
 import dagger.BindsInstance
 import dagger.Component
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Singleton

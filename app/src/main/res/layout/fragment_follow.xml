@@ -31,6 +31,7 @@
         android:layout_height="200dp"
         android:scaleType="centerInside"
         android:visibility="gone"
+        android:contentDescription="@string/follow_error"
         android:src="@drawable/pic_search_empty"
         app:layout_constraintBottom_toTopOf="@+id/tv_follow_error"
         app:layout_constraintEnd_toEndOf="parent"

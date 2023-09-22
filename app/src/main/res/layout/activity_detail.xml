@@ -22,7 +22,6 @@
         app:srcCompat="@drawable/ic_favorite_border" />
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/desc_bg_img"
@@ -116,8 +115,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/tv_detail_username"
         app:layout_constraintStart_toStartOf="@+id/tv_detail_username"
-        app:layout_constraintTop_toBottomOf="@+id/tv_detail_username"
-        tools:text="Nama" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_username"/>
 
     <ProgressBar
         android:id="@+id/progress_bar_detail"

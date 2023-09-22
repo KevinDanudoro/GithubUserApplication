@@ -31,14 +31,6 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    companion object {
-        const val EXTRA_USERNAME = "extra_username"
-        private val TAB_TITLES = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -196,5 +188,13 @@ class DetailActivity : AppCompatActivity() {
             val fabIcon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
             binding.fabLike.setImageDrawable(fabIcon)
         }
+    }
+
+    companion object {
+        const val EXTRA_USERNAME = "extra_username"
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_1,
+            R.string.tab_text_2
+        )
     }
 }

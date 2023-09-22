@@ -3,7 +3,6 @@ package com.bangkit.githubuserapplication.presentation.main
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.core.data.Resource
 import com.bangkit.core.domain.model.GithubUser
 import com.bangkit.core.ui.GithubUserAdapter
 import com.bangkit.core.ui.ViewModelFactory
@@ -131,15 +131,15 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.githubUser.observe(this@MainActivity){githubUser ->
             if(githubUser != null){
                 when(githubUser){
-                    is com.bangkit.core.data.Resource.Error -> {
+                    is Resource.Error -> {
                         setShowErrorMessage(true)
                         setShowProgressbar(false)
                     }
-                    is com.bangkit.core.data.Resource.Loading -> {
+                    is Resource.Loading -> {
                         setShowErrorMessage(false)
                         setShowProgressbar(true)
                     }
-                    is com.bangkit.core.data.Resource.Success -> {
+                    is Resource.Success -> {
                         setShowProgressbar(false)
                         setShowErrorMessage(githubUser.data?.size ?: 0)
                         setListGithubUser(githubUser.data)

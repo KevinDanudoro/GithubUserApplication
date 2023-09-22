@@ -5,18 +5,20 @@ import androidx.lifecycle.*
 import com.bangkit.core.data.Resource
 import com.bangkit.core.domain.model.GithubUser
 import com.bangkit.core.domain.usecase.GithubUserUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val githubUserUseCase: GithubUserUseCase) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val githubUserUseCase: GithubUserUseCase,
+) : ViewModel() {
     private val _githubUser = MutableLiveData<Resource<List<GithubUser>>?>()
     val githubUser: LiveData<Resource<List<GithubUser>>?> = _githubUser
 
     fun getAllGithubUser(username: String) {
-        // Jika diberi dispatcher malah error? kenapa ya?
-        viewModelScope.launch {
+        viewModelScope.launch() {
             githubUserUseCase.getAllGithubUser(username)
                 .catch { error -> Log.d("MainViewModel", error.message.toString()) }
                 .collect {
@@ -25,7 +27,8 @@ class MainViewModel @Inject constructor(private val githubUserUseCase: GithubUse
         }
     }
 
-    val isDarkMode: LiveData<Boolean> = githubUserUseCase.getThemeSetting().asLiveData()
+    val isDarkMode: LiveData<Boolean> = githubUserUseCase.getThemeSetting()
+        .asLiveData()
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
