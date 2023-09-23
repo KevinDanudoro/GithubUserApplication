@@ -6,6 +6,7 @@ import com.bangkit.core.data.source.local.room.GithubUserDatabase
 import com.bangkit.core.data.source.local.room.dao.FollowerDao
 import com.bangkit.core.data.source.local.room.dao.FollowingDao
 import com.bangkit.core.data.source.local.room.dao.GithubUserDao
+import com.bangkit.core.data.source.local.room.dao.GithubUserDetailDao
 import dagger.Module
 import dagger.Provides
 import net.sqlcipher.database.SQLiteDatabase
@@ -29,11 +30,18 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideGithubUserDao(database: GithubUserDatabase): GithubUserDao = database.githubUserDao()
+    fun provideGithubUserDao(database: GithubUserDatabase): GithubUserDao =
+        database.githubUserDao()
 
     @Provides
-    fun provideFollowerDao(database: GithubUserDatabase): FollowerDao = database.followerDao()
+    fun providesGithubUserDetailDao(database: GithubUserDatabase): GithubUserDetailDao =
+        database.githubUserDetailDao()
 
     @Provides
-    fun provideFollowingDao(database: GithubUserDatabase): FollowingDao = database.followingDao()
+    fun provideFollowerDao(database: GithubUserDatabase): FollowerDao =
+        database.followerDao()
+
+    @Provides
+    fun provideFollowingDao(database: GithubUserDatabase): FollowingDao =
+        database.followingDao()
 }

@@ -1,7 +1,7 @@
 package com.bangkit.core.data
 
 import com.bangkit.core.data.source.local.LocalDataSource
-import com.bangkit.core.data.source.local.entity.GithubUserEntity
+import com.bangkit.core.data.source.local.entity.GithubUserDetailEntity
 import com.bangkit.core.data.source.remote.RemoteDataSource
 import com.bangkit.core.data.source.remote.network.ApiResponse
 import com.bangkit.core.data.source.remote.response.DetailGithubUserResponse
@@ -24,7 +24,7 @@ class GithubUserRepository @Inject constructor(
         object : NetworkBoundResource<List<GithubUser>, List<GithubUserResponse>>() {
             override fun loadFromDB(): Flow<List<GithubUser>> {
                 return localDataSource.getAllGithubUser().map {
-                    DataMapper.mapEntitiesToDomain(it)
+                    DataMapper.mapGithubEntitiesToDomain(it)
                 }
             }
 
@@ -32,8 +32,8 @@ class GithubUserRepository @Inject constructor(
                 remoteDataSource.getAllGithubUser(username)
 
             override suspend fun saveCallResult(data: List<GithubUserResponse>) {
-                localDataSource.deleteNonFavoriteGithubUser()
-                val githubUserList = DataMapper.mapResponsesToEntities(data)
+                val githubUserList = DataMapper.mapGithubResponseToEntities(data)
+                localDataSource.deleteAllGithubUser()
                 localDataSource.insertAllGithubUser(githubUserList)
             }
 
@@ -44,8 +44,8 @@ class GithubUserRepository @Inject constructor(
     override fun getDetailGithubUser(username: String): Flow<Resource<GithubUser>> =
         object : NetworkBoundResource<GithubUser, DetailGithubUserResponse>(){
             override fun loadFromDB(): Flow<GithubUser> {
-                return localDataSource.getOneGithubUser(username).map {
-                    DataMapper.mapEntitiesToDomain(it)
+                return localDataSource.getDetailGithubUser(username).map {
+                    DataMapper.mapGithubDetailEntitiesToDomain(it)
                 }
             }
 
@@ -54,8 +54,9 @@ class GithubUserRepository @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: DetailGithubUserResponse) {
-                val githubUserDetail = DataMapper.mapResponsesToEntities(data)
-                localDataSource.updateGithubUser(githubUserDetail)
+                val githubUserDetail = DataMapper.mapGithubDetailResponseToEntities(data)
+                localDataSource.deleteNonFavoriteGithubUser()
+                localDataSource.insertGithubUserDetail(githubUserDetail)
             }
 
             override fun shouldFetch(data: GithubUser?) = data?.name==null
@@ -63,20 +64,20 @@ class GithubUserRepository @Inject constructor(
 
     override fun getAllFavoriteUser(): Flow<List<GithubUser>> =
         localDataSource.getAllFavoriteGithubUser().map {
-            DataMapper.mapEntitiesToDomain(it)
+            DataMapper.mapGithubDetailEntitiesToDomain(it)
         }
 
     override suspend fun setFavoriteGithubUser(githubUser: GithubUser, state: Int) {
-        val githubUserEntity: GithubUserEntity = DataMapper.mapDomainToEntity(githubUser)
+        val githubUserEntity: GithubUserDetailEntity = DataMapper
+            .mapDomainToGithubDetailEntity(githubUser)
         githubUserEntity.isFavorite = state
         localDataSource.setFavoriteGithubUser(githubUserEntity)
     }
 
     override suspend fun deleteOneFavoriteGithubUser(githubUser: GithubUser) {
-        val githubUserEntity = DataMapper.mapDomainToEntity(githubUser)
+        val githubUserEntity = DataMapper.mapDomainToGithubDetailEntity(githubUser)
         localDataSource.deleteFavoriteGithubUser(githubUserEntity)
     }
-
 
     override fun getFollowers(username: String): Flow<Resource<List<GithubUser>>> {
          return object : NetworkBoundResource<List<GithubUser>, List<GithubUserResponse>>(){

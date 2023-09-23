@@ -3,10 +3,12 @@ package com.bangkit.core.data.source.local
 import com.bangkit.core.data.source.local.datastore.SettingPreferences
 import com.bangkit.core.data.source.local.entity.FollowerEntity
 import com.bangkit.core.data.source.local.entity.FollowingEntity
+import com.bangkit.core.data.source.local.entity.GithubUserDetailEntity
 import com.bangkit.core.data.source.local.entity.GithubUserEntity
 import com.bangkit.core.data.source.local.room.dao.FollowerDao
 import com.bangkit.core.data.source.local.room.dao.FollowingDao
 import com.bangkit.core.data.source.local.room.dao.GithubUserDao
+import com.bangkit.core.data.source.local.room.dao.GithubUserDetailDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,6 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class LocalDataSource @Inject constructor(
     private val githubUserDao: GithubUserDao,
+    private val githubUserDetailDao: GithubUserDetailDao,
     private val followingDao: FollowingDao,
     private val followerDao: FollowerDao,
     private val datastore: SettingPreferences
@@ -22,27 +25,28 @@ class LocalDataSource @Inject constructor(
     fun getAllGithubUser(): Flow<List<GithubUserEntity>> =
         githubUserDao.getAllGithubUser()
 
-    fun getOneGithubUser(username: String): Flow<GithubUserEntity> =
-        githubUserDao.getOneGithubUser(username)
-
     suspend fun insertAllGithubUser(githubUserList: List<GithubUserEntity>) =
         githubUserDao.insertAllGithubUser(githubUserList)
 
-    suspend fun updateGithubUser(githubUser: GithubUserEntity) =
-        githubUserDao.updateGithubUser(githubUser)
+    suspend fun deleteAllGithubUser() = githubUserDao.deleteAllGithubUser()
 
-    suspend fun deleteFavoriteGithubUser(githubUser: GithubUserEntity) =
-        githubUserDao.deleteOneGithubUser(githubUser)
+    fun getDetailGithubUser(username: String): Flow<GithubUserDetailEntity?> =
+        githubUserDetailDao.getDetailGithubUser(username)
+
+    fun getAllFavoriteGithubUser(): Flow<List<GithubUserDetailEntity>> =
+        githubUserDetailDao.getAllFavoriteGithubUser()
+
+    suspend fun deleteFavoriteGithubUser(githubUser: GithubUserDetailEntity) =
+        githubUserDetailDao.deleteFavoriteGithubUser(githubUser)
 
     suspend fun deleteNonFavoriteGithubUser() =
-        githubUserDao.deleteNonFavoriteGithubUser()
+        githubUserDetailDao.deleteNonFavoriteGithubUser()
 
+    suspend fun insertGithubUserDetail(githubUser: GithubUserDetailEntity) =
+        githubUserDetailDao.insertGithubUserDetail(githubUser)
 
-    fun getAllFavoriteGithubUser(): Flow<List<GithubUserEntity>> =
-        githubUserDao.getAllFavoriteUser()
-
-    suspend fun setFavoriteGithubUser(favoriteUser: GithubUserEntity) =
-        githubUserDao.setFavoriteUser(favoriteUser)
+    suspend fun setFavoriteGithubUser(favoriteUser: GithubUserDetailEntity) =
+        githubUserDetailDao.setFavoriteUser(favoriteUser)
 
     fun getFollowing() =
         followingDao.getFollowing()
